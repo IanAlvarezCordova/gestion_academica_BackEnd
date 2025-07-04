@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 //File: /src/main/java/com/example/gestion_academica/dto/NotaDTO.java
 package com.example.gestion_academica.dto;
 
@@ -32,9 +31,3 @@ public class NotaDTO {
     public Long getAsignaturaId() { return asignaturaId; }
     public void setAsignaturaId(Long asignaturaId) { this.asignaturaId = asignaturaId; }
 }
-=======
-package com.example.gestion_academica.dto;
-
-public class NotaDTO {
-}
->>>>>>> Stashed changes

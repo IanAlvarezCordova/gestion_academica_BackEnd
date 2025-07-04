@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 //File: /src/main/java/com/example/gestion_academica/dto/AlumnoDTO.java
 package com.example.gestion_academica.dto;
 
@@ -27,9 +26,3 @@ public class AlumnoDTO {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 }
-=======
-package com.example.gestion_academica.dto;
-
-public class AlumnoDTO {
-}
->>>>>>> Stashed changes
