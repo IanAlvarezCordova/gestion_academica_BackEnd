@@ -1,5 +1,7 @@
+//File: /src/main/java/com/example/gestion_academica/modelos/Alumno.java
 package com.example.gestion_academica.modelos;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class Asignatura {
     private String nombre;
 
     @OneToMany(mappedBy = "asignatura", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Nota> notas;
 
     public Asignatura() {}

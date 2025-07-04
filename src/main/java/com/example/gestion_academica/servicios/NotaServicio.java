@@ -1,27 +1,96 @@
+//File: /src/main/java/com/example/gestion_academica/servicios/NotaServicio.java
 package com.example.gestion_academica.servicios;
 
+import com.example.gestion_academica.dto.NotaDTO;
+import com.example.gestion_academica.modelos.Alumno;
+import com.example.gestion_academica.modelos.Asignatura;
 import com.example.gestion_academica.modelos.Nota;
+import com.example.gestion_academica.repositorios.AlumnoRepositorio;
+import com.example.gestion_academica.repositorios.AsignaturaRepositorio;
 import com.example.gestion_academica.repositorios.NotaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NotaServicio {
     @Autowired
     private NotaRepositorio repositorio;
+    @Autowired
+    private AlumnoRepositorio alumnoRepositorio;
+    @Autowired
+    private AsignaturaRepositorio asignaturaRepositorio;
 
-    public List<Nota> obtenerTodos() {
-        return repositorio.findAll();
+    public Nota crearDesdeDTO(NotaDTO notaDTO) {
+        Nota nota = new Nota();
+        nota.setCalificacion(notaDTO.getCalificacion());
+        if (notaDTO.getAlumnoId() != null) {
+            Alumno alumno = alumnoRepositorio.findById(notaDTO.getAlumnoId())
+                    .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+            nota.setAlumno(alumno);
+        }
+        if (notaDTO.getAsignaturaId() != null) {
+            Asignatura asignatura = asignaturaRepositorio.findById(notaDTO.getAsignaturaId())
+                    .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+            nota.setAsignatura(asignatura);
+        }
+        return repositorio.save(nota);
+    }
+
+    public NotaDTO actualizar(Long id, NotaDTO notaDTO) {
+        Nota existente = repositorio.findById(id).orElse(null);
+        if (existente != null) {
+            if (notaDTO.getCalificacion() != null) {
+                existente.setCalificacion(notaDTO.getCalificacion());
+            }
+            if (notaDTO.getAlumnoId() != null) {
+                Alumno alumno = alumnoRepositorio.findById(notaDTO.getAlumnoId())
+                        .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+                existente.setAlumno(alumno);
+            }
+            if (notaDTO.getAsignaturaId() != null) {
+                Asignatura asignatura = asignaturaRepositorio.findById(notaDTO.getAsignaturaId())
+                        .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+                existente.setAsignatura(asignatura);
+            }
+            Nota actualizado = repositorio.save(existente);
+            return new NotaDTO(
+                    actualizado.getId(),
+                    actualizado.getCalificacion(),
+                    actualizado.getAlumno() != null ? actualizado.getAlumno().getId() : null,
+                    actualizado.getAsignatura() != null ? actualizado.getAsignatura().getId() : null
+            );
+        }
+        return null;
+    }
+    public List<NotaDTO> obtenerTodos() {
+        return repositorio.findAll().stream()
+                .map(nota -> new NotaDTO(
+                        nota.getId(),
+                        nota.getCalificacion(),
+                        nota.getAlumno() != null ? nota.getAlumno().getId() : null,
+                        nota.getAsignatura() != null ? nota.getAsignatura().getId() : null
+                ))
+                .collect(Collectors.toList());
     }
 
     public Nota guardar(Nota nota) {
         return repositorio.save(nota);
     }
 
-    public Nota obtenerPorId(Long id) {
-        return repositorio.findById(id).orElse(null);
+    public NotaDTO obtenerPorId(Long id) {
+        Nota nota = repositorio.findById(id).orElse(null);
+        if (nota != null) {
+            return new NotaDTO(
+                    nota.getId(),
+                    nota.getCalificacion(),
+                    nota.getAlumno() != null ? nota.getAlumno().getId() : null,
+                    nota.getAsignatura() != null ? nota.getAsignatura().getId() : null
+            );
+        }
+        return null;
     }
 
     public Nota actualizar(Long id, Nota nota) {

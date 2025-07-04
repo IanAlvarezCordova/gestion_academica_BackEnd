@@ -1,5 +1,7 @@
+//File: /src/main/java/com/example/gestion_academica/controladores/AlumnoControlador.java
 package com.example.gestion_academica.controladores;
 
+import com.example.gestion_academica.dto.AlumnoDTO;
 import com.example.gestion_academica.modelos.Alumno;
 import com.example.gestion_academica.servicios.AlumnoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +18,26 @@ public class AlumnoControlador {
     private AlumnoServicio servicio;
 
     @GetMapping
-    public List<Alumno> obtenerTodos() {
+    public List<AlumnoDTO> obtenerTodos() {
         return servicio.obtenerTodos();
     }
 
     @PostMapping
-    public Alumno crear(@RequestBody Alumno alumno) {
-        return servicio.guardar(alumno);
+    public ResponseEntity<AlumnoDTO> crear(@RequestBody AlumnoDTO alumnoDTO) {
+        Alumno alumno = new Alumno(alumnoDTO.getNombre(), alumnoDTO.getApellido(), alumnoDTO.getEmail());
+        Alumno guardado = servicio.guardar(alumno);
+        return ResponseEntity.ok(new AlumnoDTO(guardado.getId(), guardado.getNombre(), guardado.getApellido(), guardado.getEmail()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Alumno> obtenerPorId(@PathVariable Long id) {
-        Alumno alumno = servicio.obtenerPorId(id);
+    public ResponseEntity<AlumnoDTO> obtenerPorId(@PathVariable Long id) {
+        AlumnoDTO alumno = servicio.obtenerPorId(id);
         return alumno != null ? ResponseEntity.ok(alumno) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Alumno> actualizar(@PathVariable Long id, @RequestBody Alumno alumno) {
-        Alumno actualizado = servicio.actualizar(id, alumno);
+    public ResponseEntity<AlumnoDTO> actualizar(@PathVariable Long id, @RequestBody AlumnoDTO alumnoDTO) {
+        AlumnoDTO actualizado = servicio.actualizar(id, alumnoDTO);
         return actualizado != null ? ResponseEntity.ok(actualizado) : ResponseEntity.notFound().build();
     }
 

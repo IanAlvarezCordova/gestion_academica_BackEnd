@@ -1,5 +1,7 @@
+//File: /src/main/java/com/example/gestion_academica/modelos/Nota.java
 package com.example.gestion_academica.modelos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,10 +13,12 @@ public class Nota {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alumno_id")
+    @JsonBackReference(value = "alumno-nota")
     private Alumno alumno;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asignatura_id")
+    @JsonBackReference(value = "asignatura-nota")
     private Asignatura asignatura;
 
     public Nota() {}

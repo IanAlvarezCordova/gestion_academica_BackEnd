@@ -1,5 +1,7 @@
+//File: /src/main/java/com/example/gestion_academica/controladores/AsignaturaControlador.java
 package com.example.gestion_academica.controladores;
 
+import com.example.gestion_academica.dto.AsignaturaDTO;
 import com.example.gestion_academica.modelos.Asignatura;
 import com.example.gestion_academica.servicios.AsignaturaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +18,26 @@ public class AsignaturaControlador {
     private AsignaturaServicio servicio;
 
     @GetMapping
-    public List<Asignatura> obtenerTodos() {
+    public List<AsignaturaDTO> obtenerTodos() {
         return servicio.obtenerTodos();
     }
 
     @PostMapping
-    public Asignatura crear(@RequestBody Asignatura asignatura) {
-        return servicio.guardar(asignatura);
+    public ResponseEntity<AsignaturaDTO> crear(@RequestBody AsignaturaDTO asignaturaDTO) {
+        Asignatura asignatura = new Asignatura(asignaturaDTO.getNombre());
+        Asignatura guardada = servicio.guardar(asignatura);
+        return ResponseEntity.ok(new AsignaturaDTO(guardada.getId(), guardada.getNombre()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Asignatura> obtenerPorId(@PathVariable Long id) {
-        Asignatura asignatura = servicio.obtenerPorId(id);
+    public ResponseEntity<AsignaturaDTO> obtenerPorId(@PathVariable Long id) {
+        AsignaturaDTO asignatura = servicio.obtenerPorId(id);
         return asignatura != null ? ResponseEntity.ok(asignatura) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Asignatura> actualizar(@PathVariable Long id, @RequestBody Asignatura asignatura) {
-        Asignatura actualizado = servicio.actualizar(id, asignatura);
+    public ResponseEntity<AsignaturaDTO> actualizar(@PathVariable Long id, @RequestBody AsignaturaDTO asignaturaDTO) {
+        AsignaturaDTO actualizado = servicio.actualizar(id, asignaturaDTO);
         return actualizado != null ? ResponseEntity.ok(actualizado) : ResponseEntity.notFound().build();
     }
 
