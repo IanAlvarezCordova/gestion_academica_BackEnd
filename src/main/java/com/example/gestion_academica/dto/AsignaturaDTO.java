@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 //File: /src/main/java/com/example/gestion_academica/dto/AsignaturaDTO.java
 package com.example.gestion_academica.dto;
 import java.util.List;
@@ -29,3 +30,9 @@ public class AsignaturaDTO {
     public List<NotaDTO> getNotas() { return notas; }
     public void setNotas(List<NotaDTO> notas) { this.notas = notas; }
 }
+=======
+package com.example.gestion_academica.dto;
+
+public class AsignaturaDTO {
+}
+>>>>>>> Stashed changes
