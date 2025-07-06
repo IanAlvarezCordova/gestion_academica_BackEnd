@@ -4,12 +4,16 @@ package com.example.gestion_academica.modelos;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class Nota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double calificacion;
+
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alumno_id")
@@ -21,12 +25,19 @@ public class Nota {
     @JsonBackReference(value = "asignatura-nota")
     private Asignatura asignatura;
 
+    private String descripcion;
+
+    private LocalDate fecha;
+
     public Nota() {}
 
-    public Nota(Double calificacion, Alumno alumno, Asignatura asignatura) {
+    public Nota(Long id, Double calificacion, Alumno alumno, Asignatura asignatura, String descripcion, LocalDate fecha) {
+        this.id = id;
         this.calificacion = calificacion;
         this.alumno = alumno;
         this.asignatura = asignatura;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
     }
 
     // Getters y Setters
@@ -38,4 +49,12 @@ public class Nota {
     public void setAlumno(Alumno alumno) { this.alumno = alumno; }
     public Asignatura getAsignatura() { return asignatura; }
     public void setAsignatura(Asignatura asignatura) { this.asignatura = asignatura; }
+
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+
+
 }

@@ -31,6 +31,8 @@ public class NotaControlador {
                 nota.getCalificacion(),
                 nota.getAlumno() != null ? nota.getAlumno().getId() : null,
                 nota.getAsignatura() != null ? nota.getAsignatura().getId() : null
+                , nota.getDescripcion(),
+                nota.getFecha()
         ));
     }
 
