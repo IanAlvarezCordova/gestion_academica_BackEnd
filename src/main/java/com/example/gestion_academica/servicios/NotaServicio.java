@@ -36,6 +36,9 @@ public class NotaServicio {
                     .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
             nota.setAsignatura(asignatura);
         }
+        nota.setDescripcion(notaDTO.getDescripcion());
+        nota.setFecha(notaDTO.getFecha());
+
         return repositorio.save(nota);
     }
 
@@ -55,12 +58,21 @@ public class NotaServicio {
                         .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
                 existente.setAsignatura(asignatura);
             }
+            if (notaDTO.getDescripcion() != null) {
+                existente.setDescripcion(notaDTO.getDescripcion());
+            }
+            if (notaDTO.getFecha() != null) {
+                existente.setFecha(notaDTO.getFecha());
+            }
+
             Nota actualizado = repositorio.save(existente);
             return new NotaDTO(
                     actualizado.getId(),
                     actualizado.getCalificacion(),
                     actualizado.getAlumno() != null ? actualizado.getAlumno().getId() : null,
-                    actualizado.getAsignatura() != null ? actualizado.getAsignatura().getId() : null
+                    actualizado.getAsignatura() != null ? actualizado.getAsignatura().getId() : null,
+                    actualizado.getDescripcion(),
+                    actualizado.getFecha()
             );
         }
         return null;
@@ -71,7 +83,9 @@ public class NotaServicio {
                         nota.getId(),
                         nota.getCalificacion(),
                         nota.getAlumno() != null ? nota.getAlumno().getId() : null,
-                        nota.getAsignatura() != null ? nota.getAsignatura().getId() : null
+                        nota.getAsignatura() != null ? nota.getAsignatura().getId() : null,
+                        nota.getDescripcion(),
+                        nota.getFecha()
                 ))
                 .collect(Collectors.toList());
     }
@@ -87,7 +101,9 @@ public class NotaServicio {
                     nota.getId(),
                     nota.getCalificacion(),
                     nota.getAlumno() != null ? nota.getAlumno().getId() : null,
-                    nota.getAsignatura() != null ? nota.getAsignatura().getId() : null
+                    nota.getAsignatura() != null ? nota.getAsignatura().getId() : null,
+                    nota.getDescripcion(),
+                    nota.getFecha()
             );
         }
         return null;

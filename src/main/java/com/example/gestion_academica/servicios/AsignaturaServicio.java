@@ -26,7 +26,9 @@ public class AsignaturaServicio {
                                         nota.getId(),
                                         nota.getCalificacion(),
                                         nota.getAlumno() != null ? nota.getAlumno().getId() : null,
-                                        nota.getAsignatura() != null ? nota.getAsignatura().getId() : null
+                                        nota.getAsignatura() != null ? nota.getAsignatura().getId() : null,
+                                        nota.getDescripcion(),
+                                        nota.getFecha()
                                 ))
                                 .collect(Collectors.toList())
                 ))
@@ -49,7 +51,11 @@ public class AsignaturaServicio {
                                     nota.getId(),
                                     nota.getCalificacion(),
                                     nota.getAlumno() != null ? nota.getAlumno().getId() : null,
-                                    nota.getAsignatura() != null ? nota.getAsignatura().getId() : null
+                                    nota.getAsignatura() != null ? nota.getAsignatura().getId() : null,
+                                    nota.getDescripcion(),
+                                    nota.getFecha()
+
+
                             ))
                             .collect(Collectors.toList())
             );
